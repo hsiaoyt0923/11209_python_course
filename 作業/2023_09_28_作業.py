@@ -52,3 +52,10 @@ class Player:
         dsecript += f"得分:{self.__play()}分"
         return descript
 
+p1 = Player('甲')
+print(p1.value)
+print(p1)
+
+p2 = Player('乙')
+print(p2.value)
+print(p2)
