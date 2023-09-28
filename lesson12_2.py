@@ -8,7 +8,7 @@ class Player:
         self.__dice3 = random.randint(1,6)
         self.__dice4 = random.randint(1,6)
 
-    def __play() -> int:
+    def __play(self) -> int:
         value = 0
         pair = 0
         value_t = 0 
