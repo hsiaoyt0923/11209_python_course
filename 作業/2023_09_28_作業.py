@@ -14,18 +14,7 @@ class Player:
             dice4 = random.randint(1,6) 
             D = sorted([dice1, dice2, dice3, dice4])
             if (D[0] == D[1] == D[2] == D[3]):
-                if D[0] == 1:
-                    score = 13
-                if D[0] == 2:
-                    score = 14
-                if D[0] == 3:
-                    score = 15
-                if D[0] == 4:
-                    score = 16
-                if D[0] == 5:
-                    score = 17
-                if D[0] == 6:
-                    score = 18
+                score = D[0] + 12
             elif (D[0] != D[1] != D[2] != D[3]):
                 score = ''
             elif (D[0] == D[1] == D[2]) or (D[1] == D[2] == D[3]): 
