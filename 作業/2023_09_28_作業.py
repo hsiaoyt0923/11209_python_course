@@ -45,7 +45,7 @@ class Player:
     def value(self):
         return self.__play()
 
-#被呼叫時傳出字串
+#傳出字串
     def __repr__(self) -> str:
         descript = f"姓名:{self.name}"
         return descript
