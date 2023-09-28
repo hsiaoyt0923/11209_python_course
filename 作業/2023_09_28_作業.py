@@ -38,7 +38,7 @@ class Player:
                 elif D[2] == D[3]:
                     score = D[0] + D[1] 
         
-        return f'骰子一:{dice1}\n骰子二:{dice2}\n骰子三:{dice3}\n骰子四:{dice4}\n得分:{score}'
+        return f'骰子一:{dice1} 骰子二:{dice2} 骰子三:{dice3} 骰子四:{dice4}\n{D}\n得分:{score}'
 
 #property
     @property
