@@ -1,5 +1,6 @@
 class Person:
 #attribute
+#無法對attribute使用迴圈
     def __init__(self,n:str, weight:int, height:int):
         self.__name = n
         self.weight = weight
@@ -18,7 +19,8 @@ class Person:
     def __str__(self) -> str:
         return f'name:{self.__name}\nweight:{self.weight}\nheight:{self.height}'
 
-#method       
+#method
+#return後應接資料型別，不能接函式       
     def bmi(self):
         return round(self.weight / (self.height*0.01)**2, ndigits=2)
 
