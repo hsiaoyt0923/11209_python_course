@@ -17,8 +17,6 @@ class Player:
             score=dict.get(Dice[0])
         elif len(set(Dice)) == 4:
             score = 0
-        elif len(set(Dice)) == 4:
-            score = 0
         elif Dice.count(Dice[0]) == 3 or Dice.count(Dice[1]) == 3:      #不能寫成Dice.count(Dice[0]) or Dice.count(Dice[1]) == 3
             score = 0                                                   #一定要分別寫 == 3
         else:
