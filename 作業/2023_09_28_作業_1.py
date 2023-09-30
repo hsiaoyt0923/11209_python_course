@@ -13,12 +13,12 @@ class Player:
             dice3 = random.randint(1,6)
             dice4 = random.randint(1,6) 
             D = sorted([dice1, dice2, dice3, dice4])
-            if (D[0] == D[1] == D[2] == D[3]):
+            if (D[0] == D[1] == D[2] == D[3]):             #相當於(D[0] == D[1]) & (D[1] == D[2]) & (D[2] == D[3])  
                 score = D[0] + 12
-            elif (D[0] != D[1] != D[2] != D[3]):
+            elif (D[0] != D[1] != D[2] != D[3]):           #相當於(D[0] != D[1]) & (D[1] != D[2]) & (D[2] != D[3])  
                 score = ''
-            elif (D[0] == D[1] == D[2]) or (D[1] == D[2] == D[3]): 
-                score = ''
+            elif (D[0] == D[1] == D[2]) or (D[1] == D[2] == D[3]): #相當於[(D[0] == D[1]) & (D[1] == D[2])] or 
+                score = ''                                                [(D[1] == D[2]) & (D[2] == D[3])]
             else:
                 if D[0] == D[1]:
                     score = D[2] + D[3]
