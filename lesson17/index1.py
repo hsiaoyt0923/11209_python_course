@@ -39,7 +39,7 @@ class Window(tk.Tk):
         tk.Label(resultFrame, textvariable=self.densityVar).grid(column=1, row=4, sticky='W')
 
     def user_selected(self, event):
-        selectedIndex = self.listbox.curselection()[0]
+        selectedIndex = self.listbox.curselection()[0]   #listbox.curselection()回傳一個tuple，e.g.(0,)、(1,)
         cityName = self.listbox.get(selectedIndex)
         datalist = dataSource.Names(cityName)
         self.yearVar.set(datalist[0])
