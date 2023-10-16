@@ -25,9 +25,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+    list_new = []
     with open('台積電.csv','r',encoding='UTF-8') as file:
         csvReader = csv.reader(file)
         next(csvReader)
         list_csvReader = list(csvReader)
         for row in list_csvReader:
-            
+            row.pop(5)
+        print(list_csvReader)
