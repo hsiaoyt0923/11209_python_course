@@ -55,7 +55,6 @@ class Frame(tk.Frame):
 
         price = getPrice()
         for row in price:
-            row[5] = round(float(row[5]),ndigits=2)
             self.tree.insert('', tk.END, values=row)
         
         self.tree.bind('<<TreeviewSelect>>', self.selected)
