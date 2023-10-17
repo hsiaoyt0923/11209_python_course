@@ -8,32 +8,6 @@ class Window(tk.Tk):
         super().__init__(**kwargs)
         self.title('2330台積電')
 
-class Popup(Dialog):
-    def body(self, master):
-        self.title("2330台積電")
-
-        self.date = tk.StringVar()
-        self.open = tk.StringVar()
-        self.highest = tk.StringVar()
-        self.lowest = tk.StringVar()
-        self.close = tk.StringVar()
-        self.adj_close = tk.StringVar()
-        self.volume = tk.StringVar()
-        tk.Label(master, text='日期:').grid(row=0, column=0, sticky='W')
-        tk.Label(master, text='開盤價:').grid(row=1, column=0, sticky='W')
-        tk.Label(master, text='盤中最高價:').grid(row=2, column=0, sticky='W')
-        tk.Label(master, text='盤中最低價:').grid(row=3, column=0, sticky='W')
-        tk.Label(master, text='收盤價:').grid(row=4, column=0, sticky='W')
-        tk.Label(master, text='調整後收盤價:').grid(row=5, column=0, sticky='W')
-        tk.Label(master, text='成交量:').grid(row=6, column=0, sticky='W')
-        tk.Label(master, text=self.date).grid(row=0, column=1, sticky='E')
-        tk.Label(master, text=self.open).grid(row=1, column=1, sticky='E')
-        tk.Label(master, text=self.highest).grid(row=2, column=1, sticky='E')
-        tk.Label(master, text=self.lowest).grid(row=3, column=1, sticky='E')
-        tk.Label(master, text=self.close).grid(row=4, column=1, sticky='E')
-        tk.Label(master, text=self.adj_close).grid(row=5, column=1, sticky='E')
-        tk.Label(master, text=self.volume).grid(row=6, column=1, sticky='E')
-
 class Frame(tk.Frame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -60,36 +34,33 @@ class Frame(tk.Frame):
         self.tree.bind('<<TreeviewSelect>>', self.selected)
 
     def selected(self, event):
-        popup = Popup(self)
         index = self.tree.selection()[0]
         tree_dict = self.tree.item(index)
         values = tree_dict['values']
-        popup.date.get(values[0])
-        popup.open.get(values[1])
-        popup.highest.get(values[2])
-        popup.lowest.get(values[3])
-        popup.close.get(values[4])
-        popup.adj_close.get(values[5])
-        popup.volume.get(values[6])
+        class Popup(Dialog):
+            def body(self, master):
+                tk.Label(master, text='日期:').grid(row=0, column=0, sticky='W')
+                tk.Label(master, text='開盤價:').grid(row=1, column=0, sticky='W')
+                tk.Label(master, text='盤中最高價:').grid(row=2, column=0, sticky='W')
+                tk.Label(master, text='盤中最低價:').grid(row=3, column=0, sticky='W')
+                tk.Label(master, text='收盤價:').grid(row=4, column=0, sticky='W')
+                tk.Label(master, text='調整後收盤價:').grid(row=5, column=0, sticky='W')
+                tk.Label(master, text='成交量:').grid(row=6, column=0, sticky='W')
+                tk.Label(master, text=values[0]).grid(row=0, column=1, sticky='E')
+                tk.Label(master, text=values[1]).grid(row=1, column=1, sticky='E')
+                tk.Label(master, text=values[2]).grid(row=2, column=1, sticky='E')
+                tk.Label(master, text=values[3]).grid(row=3, column=1, sticky='E')
+                tk.Label(master, text=values[4]).grid(row=4, column=1, sticky='E')
+                tk.Label(master, text=values[5]).grid(row=5, column=1, sticky='E')
+                tk.Label(master, text=values[6]).grid(row=6, column=1, sticky='E')
+        popup = Popup(self)
 
-
-        
-
-
-        
-
-
-
-
-
-def getPrice() -> list[str]:
+def getPrice() -> list[list]:
     with open('台積電.csv','r',encoding='UTF-8') as file:
         csvReader = csv.reader(file)
         next(csvReader)
         list_csvReader = list(csvReader)
     return list_csvReader
-
-
 
 def main():
     window = Window()
