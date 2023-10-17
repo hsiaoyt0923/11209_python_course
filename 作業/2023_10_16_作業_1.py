@@ -16,7 +16,7 @@ class Frame(tk.Frame):
         scrollbar = ttk.Scrollbar(self, orient='vertical')
         scrollbar.pack(side='right', fill='y')
 
-        self.tree = ttk.Treeview(self, columns=[1,2,3,4,5,6,7], show='headings', yscrollcommand=scrollbar.set)  
+        self.tree = ttk.Treeview(self, columns=[1,2,3,4,5,6,7], show='headings', yscrollcommand=scrollbar.set)
         scrollbar.configure(command=self.tree.yview)      
         self.tree.heading(1, text='日期')
         self.tree.heading(2, text='開盤價')
