@@ -68,6 +68,20 @@ class Popup(Dialog):
         tk.Label(master, text=self.values[4]).grid(row=4, column=1, sticky='E')
         tk.Label(master, text=self.values[5]).grid(row=5, column=1, sticky='E')
         tk.Label(master, text=self.values[6]).grid(row=6, column=1, sticky='E')
+    
+    def buttonbox(self):
+    
+        box = tk.Frame(self)
+
+        w = tk.Button(box, text="確認", width=10, command=self.ok, default='active')
+        w.pack(side='left', padx=5, pady=5)
+        w = tk.Button(box, text="取消", width=10, command=self.cancel)
+        w.pack(side='left', padx=5, pady=5)
+
+        self.bind("<Return>", self.ok)
+        self.bind("<Escape>", self.cancel)
+
+        box.pack()
 
 def main():
     window = Window()
