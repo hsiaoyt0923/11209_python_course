@@ -35,18 +35,18 @@ class Frame(ttk.Frame):
         self.tree.column(7, minwidth=0, width=100, stretch=False)
         self.tree.pack()
 
-        self.price = self.get_price()
-        for row in self.price:
+        self.data = self.get_data()
+        for row in self.data:
             self.tree.insert('', tk.END, values=row)
 
         self.tree.bind('<<TreeviewSelect>>', self.show_popup)
 
-    def get_price(self):
+    def get_data(self):
         with open('台積電.csv', 'r', encoding='UTF-8') as file:
             csvReader = csv.reader(file)
             next(csvReader)
-            list_csvReader = list(csvReader)
-        return list_csvReader
+            data = list(csvReader)
+        return data
 
     def show_popup(self, event):
         index = self.tree.selection()[0]
