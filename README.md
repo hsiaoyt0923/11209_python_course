@@ -7,3 +7,4 @@
 ## [2023_10_03_作業_status_site](https://homework-for-status-site.onrender.com/)
 ## [2023_10_03_作業_web_service](https://homework-for-web-service.onrender.com/)
 ## [2023_10_16_作業](./作業/2023_10_16_作業_2.py)
+## [2023_10_18_作業](./作業/20231018作業.ipynb)
