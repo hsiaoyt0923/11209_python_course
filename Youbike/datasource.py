@@ -1,6 +1,8 @@
 import requests
 import sqlite3
 
+__all__ = ['update_sqlite_data']
+
 def __download_youbike_data() -> list[dict]:
     
     '''
@@ -13,7 +15,7 @@ def __download_youbike_data() -> list[dict]:
     print('下載成功')
     return response.json()
 
-def __create_table(conn:sqlite3.Connection):
+def __create_table(conn:sqlite3.Connection) -> None:
     
     '''
     創建名為 '台北市Youbike2.0' 的資料表
@@ -36,7 +38,26 @@ def __create_table(conn:sqlite3.Connection):
         ''')
     conn.commit()
 
-def update_data_to_sqlite():
+def __insert_data(conn, values) -> None:
+    sql = '''
+        INSERT  INTO "台北市Youbike2.0" 
+        (站點名稱,行政區,站點地址,更新時間,總車輛數,可借數量,可還數量)
+        VALUES(?,?,?,?,?,?,?)        
+        '''
+    cursor = conn.cursor()
+    cursor.execute(sql, values)
+    conn.commit()
+
+def update_sqlite_data() -> None:
+
+    '''
+    下載並更新資料庫
+    '''
+
     data = __download_youbike_data()
     conn = sqlite3.connect('Youbike.db')
     __create_table(conn)
+    for item in data:
+        __insert_data(conn, [item['sna'], item['sarea'], item['ar'], item['mday'], item['tot'], item['sbi'], item['bemp']])
+    conn.close()
+

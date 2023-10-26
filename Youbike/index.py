@@ -7,7 +7,7 @@ class Window(tk.Tk):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         try:
-            datasource.update_data_to_sqlite()
+            datasource.update_sqlite_data()
         except Exception as e:
             messagebox.showerror('錯誤訊息', '網路不正常\n將關閉應用程式\n請稍後再試')
             self.destroy()
