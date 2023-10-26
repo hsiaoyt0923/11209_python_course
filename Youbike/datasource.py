@@ -1,6 +1,7 @@
 import requests
 import sqlite3
 
+
 __all__ = ['update_sqlite_data']
 
 def __download_youbike_data() -> list[dict]:
@@ -48,6 +49,7 @@ def __insert_data(conn, values) -> None:
     cursor = conn.cursor()
     cursor.execute(sql, values)
     conn.commit()
+
 
 def update_sqlite_data() -> None:
 
