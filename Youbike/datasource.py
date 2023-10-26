@@ -34,13 +34,14 @@ def __create_table(conn:sqlite3.Connection) -> None:
         "可借數量"	INTEGER,
         "可還數量"	INTEGER,
         PRIMARY KEY("ID" AUTOINCREMENT)
+        UNIQUE(站點名稱,更新時間) ON CONFLICT REPLACE
         )
         ''')
     conn.commit()
 
 def __insert_data(conn, values) -> None:
     sql = '''
-        INSERT  INTO "台北市Youbike2.0" 
+        REPLACE  INTO "台北市Youbike2.0" 
         (站點名稱,行政區,站點地址,更新時間,總車輛數,可借數量,可還數量)
         VALUES(?,?,?,?,?,?,?)        
         '''
