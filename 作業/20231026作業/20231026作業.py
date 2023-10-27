@@ -37,22 +37,23 @@ def create_table(conn:sqlite3.Connection) -> None:
     cursor.execute(sql)
     conn.commit()
 
-
-def insert_data():
-    '''
-    插入資料
-    '''
-    pass
-
-def update_data():
+def update_data(conn:sqlite3.Connection, values:list):
     '''
     更新資料
     '''
-    pass
+    
+    sql = '''
+        
+        '''
+    data = download_data()
+    cursor = conn.cursor()
+    cursor.execute(sql, values)
+    conn.commit()
+
 
 
 def main():
-    data = download_data()
+    
     conn = sqlite3.connect('PM2_5.db')
 
 
