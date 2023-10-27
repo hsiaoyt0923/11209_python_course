@@ -37,9 +37,9 @@ def create_table(conn:sqlite3.Connection) -> None:
     cursor.execute(sql)
     conn.commit()
 
-def update_data(conn:sqlite3.Connection, values:list):
+def update_data(conn:sqlite3.Connection):
     '''
-    更新資料
+    新增、更新資料
     '''
     
     sql = '''
@@ -53,16 +53,17 @@ def update_data(conn:sqlite3.Connection, values:list):
         VALUES(?,?,?,?,?)
         '''
     data = download_data()
-    for item in data:
-        pass
     cursor = conn.cursor()
-    cursor.execute(sql, values)
+
+    for item in data['records']:
+        cursor.execute(sql, item['site'], item['county'], item['pm25'], item['datacreationdate'], item['itemunit'])    
     conn.commit()
 
 
 
 def main():
     conn = sqlite3.connect('PM2_5.db')
+    update_data()
 
 
 if __name__ == '__main__':
