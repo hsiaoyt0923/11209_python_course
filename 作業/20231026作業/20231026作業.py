@@ -63,17 +63,14 @@ def update_data():
     '''
 
     conn = sqlite3.connect('PM2_5.db')
-    data = download_data()
     create_table(conn)
+    data = download_data()
     for item in data['records']:
         insert_data(conn, (item['site'], item['county'], item['pm25'], item['datacreationdate'], item['itemunit']))
-    timer = threading.Timer(60, update_data)
+    timer = threading.Timer(3600, update_data)
     timer.start()
     print('資料更新完畢')
     conn.close()
 
-def main():
-    update_data()
-
 if __name__ == '__main__':
-    main()
+    update_data()
