@@ -64,6 +64,7 @@ def update_data(conn:sqlite3.Connection):
 def main():
     conn = sqlite3.connect('PM2_5.db')
     update_data()
+    conn.close()
 
 
 if __name__ == '__main__':
