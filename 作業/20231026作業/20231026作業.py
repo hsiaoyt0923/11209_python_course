@@ -43,9 +43,18 @@ def update_data(conn:sqlite3.Connection, values:list):
     '''
     
     sql = '''
-        
+        INSERT OR REPLACE INTO '全國各地PM2.5監測資料'(
+        "測站名稱",
+        "縣市名稱",
+        "細懸浮微粒濃度",
+        "資料建置日期",
+        "測項單位"
+        )
+        VALUES(?,?,?,?,?)
         '''
     data = download_data()
+    for item in data:
+        pass
     cursor = conn.cursor()
     cursor.execute(sql, values)
     conn.commit()
@@ -53,7 +62,6 @@ def update_data(conn:sqlite3.Connection, values:list):
 
 
 def main():
-    
     conn = sqlite3.connect('PM2_5.db')
 
 
