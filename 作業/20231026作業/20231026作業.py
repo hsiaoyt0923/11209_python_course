@@ -23,13 +23,13 @@ def create_table(conn:sqlite3.Connection) -> None:
 
     sql = '''
         CREATE TABLE IF NOT EXISTS "全國各地PM2.5監測資料"(
-        "ID" INTEGER
-        "測站名稱" TEXT NOT NULL
-        "縣市名稱" TEXT NOT NULL
-        "細懸浮微粒濃度" INTEGER
-        "資料建置日期" TEXT
-        "測項單位" TEXT
-        PRIMARY KEY('ID' AUTOINCREMENT)
+        "ID" INTEGER,
+        "測站名稱" TEXT NOT NULL,
+        "縣市名稱" TEXT NOT NULL,
+        "細懸浮微粒濃度" INTEGER,
+        "資料建置日期" TEXT,
+        "測項單位" TEXT,
+        PRIMARY KEY('ID' AUTOINCREMENT),
         UNIQUE(測站名稱,資料建置日期) ON CONFLICT REPLACE
         )
         '''
@@ -37,11 +37,11 @@ def create_table(conn:sqlite3.Connection) -> None:
     cursor.execute(sql)
     conn.commit()
 
-def update_data(conn:sqlite3.Connection):
+def insert_data(conn:sqlite3.Connection, values:list|tuple) -> None:
     '''
-    新增、更新資料
+    插入資料
     '''
-    
+
     sql = '''
         INSERT OR REPLACE INTO '全國各地PM2.5監測資料'(
         "測站名稱",
@@ -52,20 +52,28 @@ def update_data(conn:sqlite3.Connection):
         )
         VALUES(?,?,?,?,?)
         '''
-    data = download_data()
-    cursor = conn.cursor()
 
-    for item in data['records']:
-        cursor.execute(sql, item['site'], item['county'], item['pm25'], item['datacreationdate'], item['itemunit'])    
+    cursor = conn.cursor()
+    cursor.execute(sql, values)
     conn.commit()
 
+def update_data():
+    '''
+    下載並更新資料
+    '''
 
-
-def main():
     conn = sqlite3.connect('PM2_5.db')
-    update_data()
+    data = download_data()
+    create_table(conn)
+    for item in data['records']:
+        insert_data(conn, (item['site'], item['county'], item['pm25'], item['datacreationdate'], item['itemunit']))
+    timer = threading.Timer(60, update_data)
+    timer.start()
+    print('資料更新完畢')
     conn.close()
 
+def main():
+    update_data()
 
 if __name__ == '__main__':
     main()
