@@ -77,8 +77,7 @@ def update_data():
         print('網路發生錯誤，請稍後再試')
     else:    
         for item in data['records']:
-            insert_data(conn, (item['site'], item['county'],
-                        item['pm25'], item['datacreationdate'], item['itemunit']))
+            insert_data(conn, (item['site'], item['county'], item['pm25'], item['datacreationdate'], item['itemunit']))
         timer = threading.Timer(10, update_data)
         timer.start()
         print('資料更新完畢')
