@@ -14,24 +14,19 @@ class Window(tk.Tk):
         #     self.destroy()
 
 
-def update_data():
-    print('做事')
-    # timer = Timer(20, update_data)
-    # timer.start()
-    # return timer
 
-def on_closing(w:Window) -> None:
-    print('關閉視窗')
-    # timer.cancel()
-    # w.destroy()
-    
+
 
 def main():
+    def update_data(w:Window):
+        datasource.update_sqlite_data()
+        window.after(5*1000,update_data,w)
     window = Window()
     window.title('台北市Youbike2.0')
     window.geometry('600x300')
     print('做事')
     window.resizable(width=False, height=False)
+    update_data(window)
     window.mainloop()
 
 if __name__ == '__main__':
