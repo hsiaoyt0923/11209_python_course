@@ -70,8 +70,8 @@ def lastest_datetime_data():
     conn = sqlite3.connect("youbike.db")
 
     sql = '''
-    SELECT 站點名稱,行政區,地址,總車輛數,可借,可還,MAX(更新時間) AS 更新時間
-    FROM 台北市Youbike2.0
+    SELECT 站點名稱, MAX(更新時間) AS 更新時間, 行政區,站點地址,總車輛數,可借數量,可還數量
+    FROM '台北市Youbike2.0'
     GROUP BY 站點名稱
     '''
 

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from youbikeTreeview import YoubikeTreeview
 import datasource
 
 class Window(tk.Tk):
@@ -8,25 +9,29 @@ class Window(tk.Tk):
         super().__init__(**kwargs)
         
         topFrame = tk.Frame(self, relief=tk.GROOVE, borderwidth=1)
-        tk.Label(topFrame, text='台北市youbike即時資訊', font=('arial', 20), bg='#33A6B8', fg='#000', padx=10, pady=10).pack()
+        tk.Label(topFrame, text='台北市youbike即時資訊', font=('arial', 20), bg='#33A6B8', fg='#000', padx=30, pady=30).pack(padx=30, pady=30)
         topFrame.pack(pady=30)
 
         bottomFrame = tk.Frame(self)
+        scrollbar = ttk.Scrollbar(self, orient='vertical')
+        scrollbar.pack(side='right', fill='y')
+        self.youbikeTreeview = YoubikeTreeview(bottomFrame, show='headings', columns=('sna','mday','sarea','ar','tot','sbi','bemp'), yscrollcommand=scrollbar.set)
+        scrollbar.configure(command=self.youbikeTreeview.yview)
+        self.youbikeTreeview.pack()
         bottomFrame.pack(pady=30)
-
-
-        # print(datasource.lastest_datetime_data())
+        
 
 
 def main():
-    # def update_data(w:Window):
-    #     datasource.update_sqlite_data()
-    #     window.after(60*1000,update_data,w)
+    def update_data(w:Window):
+        datasource.update_sqlite_data()
+        latest_data = datasource.lastest_datetime_data()
+        w.youbikeTreeview.update_content(latest_data)
+        w.after(3*60*1000,update_data,w)
+        
     window = Window()
     window.title('台北市Youbike2.0')
-    window.geometry('600x300')
-    window.resizable(width=False, height=False)
-    # update_data(window)
+    update_data(window)
     window.mainloop()
 
 if __name__ == '__main__':
