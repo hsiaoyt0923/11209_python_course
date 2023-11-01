@@ -39,6 +39,7 @@ def __create_table(conn:sqlite3.Connection) -> None:
         )
         ''')
     conn.commit()
+    cursor.close()
 
 def __insert_data(conn, values) -> None:
     sql = '''
@@ -49,6 +50,7 @@ def __insert_data(conn, values) -> None:
     cursor = conn.cursor()
     cursor.execute(sql, values)
     conn.commit()
+    cursor.close()
 
 
 def update_sqlite_data() -> None:
@@ -64,3 +66,18 @@ def update_sqlite_data() -> None:
         __insert_data(conn, [item['sna'], item['sarea'], item['ar'], item['mday'], item['tot'], item['sbi'], item['bemp']])
     conn.close()
 
+def lastest_datetime_data():
+    conn = sqlite3.connect("youbike.db")
+
+    sql = '''
+    SELECT 站點名稱,行政區,地址,總車輛數,可借,可還,MAX(更新時間) AS 更新時間
+    FROM 台北市Youbike2.0
+    GROUP BY 站點名稱
+    '''
+
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
