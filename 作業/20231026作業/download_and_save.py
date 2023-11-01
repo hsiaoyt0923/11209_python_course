@@ -4,11 +4,15 @@ import sqlite3
 from password import apikey
 
 
+# 須先建立password.py存放apikey，才能下載資料
+# 即時資料網址:https://data.moenv.gov.tw/swagger/
+
+
 def download_data() -> dict:
     '''
     下載資料
     '''
-    
+
     pm25_url = f"https://data.moenv.gov.tw/api/v2/aqx_p_02?language=zh&api_key={apikey}"
     response = requests.get(pm25_url)
     response.raise_for_status()
@@ -16,7 +20,7 @@ def download_data() -> dict:
     return response.json()
 
 
-def create_table(conn:sqlite3.Connection) -> None:
+def create_table(conn: sqlite3.Connection) -> None:
     '''
     創建資料表
     '''
@@ -37,9 +41,10 @@ def create_table(conn:sqlite3.Connection) -> None:
     cursor.execute(sql)
     conn.commit()
 
-def insert_data(conn:sqlite3.Connection, values:list|tuple) -> None:
+
+def insert_data(conn: sqlite3.Connection, values: list | tuple) -> None:
     '''
-    插入資料
+    新增資料
     '''
 
     sql = '''
@@ -57,23 +62,27 @@ def insert_data(conn:sqlite3.Connection, values:list|tuple) -> None:
     cursor.execute(sql, values)
     conn.commit()
 
+
 def update_data():
     '''
     下載並更新資料
     '''
 
     conn = sqlite3.connect('PM2_5.db')
-    data = download_data()
     create_table(conn)
-    for item in data['records']:
-        insert_data(conn, (item['site'], item['county'], item['pm25'], item['datacreationdate'], item['itemunit']))
-    timer = threading.Timer(60, update_data)
-    timer.start()
-    print('資料更新完畢')
-    conn.close()
+    
+    try:    
+        data = download_data()
+    except:
+        print('網路發生錯誤，請稍後再試')
+    else:    
+        for item in data['records']:
+            insert_data(conn, (item['site'], item['county'], item['pm25'], item['datacreationdate'], item['itemunit']))
+        timer = threading.Timer(10, update_data)
+        timer.start()
+        print('資料更新完畢')
+        conn.close()
 
-def main():
-    update_data()
 
 if __name__ == '__main__':
-    main()
+    update_data()
