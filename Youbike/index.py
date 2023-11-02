@@ -57,9 +57,8 @@ class Window(tk.Tk):
         item = self.keyin.get() 
         search_data = datasource.search_sitename(item)
         self.youbikeTreeview.update_content(search_data)
+      
         
-        
-
 def main():
     def update_data(w:Window):
         datasource.update_sqlite_data()
