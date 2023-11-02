@@ -26,4 +26,5 @@ class YoubikeTreeview(ttk.Treeview):
             self.delete(i)
         for site in site_data:
             self.insert('','end',values=site)
+    
         

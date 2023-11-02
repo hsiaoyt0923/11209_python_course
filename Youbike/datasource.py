@@ -35,7 +35,7 @@ def __create_table(conn:sqlite3.Connection) -> None:
         "可借數量"	INTEGER,
         "可還數量"	INTEGER,
         PRIMARY KEY("ID" AUTOINCREMENT)
-        UNIQUE(站點名稱,更新時間) ON CONFLICT REPLACE
+        UNIQUE(站點名稱) ON CONFLICT REPLACE
         )
         ''')
     conn.commit()
@@ -64,6 +64,7 @@ def update_sqlite_data() -> None:
     __create_table(conn)
     for item in data:
         __insert_data(conn, [item['sna'], item['sarea'], item['ar'], item['mday'], item['tot'], item['sbi'], item['bemp']])
+    print('資料更新成功')
     conn.close()
 
 def lastest_datetime_data():
@@ -84,8 +85,8 @@ def lastest_datetime_data():
 
 def search_sitename(word:str) -> list[tuple]:
     sql = '''
-        SELECT 站點名稱, 行政區, 地址, 總車輛數, 可借, 可還, MAX(更新時間) AS 更新時間 
-        FROM 台北市youbike
+        SELECT 站點名稱, MAX(更新時間) AS 更新時間, 行政區, 站點地址, 總車輛數, 可借數量, 可還數量
+        FROM '台北市Youbike2.0'
         GROUP BY 站點名稱
         HAVING 站點名稱 LIKE ?
         '''
