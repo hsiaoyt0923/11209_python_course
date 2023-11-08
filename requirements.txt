@@ -3,3 +3,4 @@ lineTool
 matplotlib
 pillow
 yfinance
+psycopg2-binary
