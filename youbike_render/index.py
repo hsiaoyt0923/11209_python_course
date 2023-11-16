@@ -1,6 +1,5 @@
 import datasource
 import psycopg2
-import password as pw
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -54,7 +53,9 @@ class Window(tk.Tk):
 
 
 def main():
+    global t,window
     def update_data(w:Window)->None:
+        global t
         #-----------更新treeView資料---------------
               
         try:
@@ -65,7 +66,10 @@ def main():
             #window.destroy()
 
         lastest_data = datasource.lastest_datetime_data()
-        w.youbikeTreeView.update_content(lastest_data)
+        try:
+            w.youbikeTreeView.update_content(lastest_data)
+        except RuntimeError:
+            return
         
         
 
@@ -81,11 +85,17 @@ def main():
     window.youbikeTreeView.update_content(lastest_data)
     #window.after(1000,update_data,window) 
     t = Timer(1, update_data,args=(window,))
-    t.start()         
+    t.start()
+    window.protocol("WM_DELETE_WINDOW", on_closing)         
     window.mainloop()
     
-
+def on_closing():
+    datasource.threadRun = False #結束次執行緒執行
+    window.destroy()    
+    t.cancel()
     
 
 if __name__ == "__main__":
+    t = None
+    window = None
     main()

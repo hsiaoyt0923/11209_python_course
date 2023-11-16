@@ -41,7 +41,6 @@ class YoubikeTreeView(ttk.Treeview):
 
     def selectedItem(self,event):
         selectedItem = self.focus()
-        print(selectedItem)
         data_dict = self.item(selectedItem)
         data_list = data_dict['values']
         title = data_list[0]
