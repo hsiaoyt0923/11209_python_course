@@ -19,14 +19,14 @@ def __download_youbike_data() -> list[dict]:
 def __create_table(conn:sqlite3.Connection) -> None:
     
     '''
-    創建名為 '台北市Youbike2.0' 的資料表
+    創建名為 '台北市youbike' 的資料表
     '''
 
     cursor = conn.cursor()
     cursor.execute(
         '''
-        CREATE TABLE IF NOT EXISTS "台北市Youbike2.0" (
-        "ID"	INTEGER,
+        CREATE TABLE IF NOT EXISTS "台北市youbike" (
+        "ID"	SERIAL,
         "站點名稱"	TEXT NOT NULL,
         "行政區"	TEXT NOT NULL,
         "站點地址"	TEXT NOT NULL,
@@ -34,8 +34,8 @@ def __create_table(conn:sqlite3.Connection) -> None:
         "總車輛數"	INTEGER NOT NULL,
         "可借數量"	INTEGER,
         "可還數量"	INTEGER,
-        PRIMARY KEY("ID" AUTOINCREMENT)
-        UNIQUE(站點名稱) ON CONFLICT REPLACE
+        PRIMARY KEY("ID")
+        UNIQUE(站點名稱)
         )
         ''')
     conn.commit()
@@ -82,6 +82,14 @@ def lastest_datetime_data():
     cursor.close()
     conn.close()
     return rows
+
+def search_all():
+    sql = '''
+        SELECT 站點名稱, MAX(更新時間) AS 更新時間, 行政區, 站點地址, 總車輛數, 可借數量, 可還數量
+        FROM '台北市Youbike2.0'
+        GROUP BY 站點名稱
+        HAVING 站點名稱 LIKE ?
+        '''
 
 def search_sitename(word:str) -> list[tuple]:
     sql = '''
