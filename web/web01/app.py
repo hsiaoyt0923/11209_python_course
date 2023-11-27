@@ -1,4 +1,4 @@
-from flask import Flask,url_for,render_template
+from flask import Flask, url_for, render_template
 import pandas as pd
 from auth import auth
 from bs import bootstrap
