@@ -1,6 +1,6 @@
 import requests
 import psycopg2
-import password as pw
+from . import password as pw
 
 threadRun = True #次執行緒是否執行
 
