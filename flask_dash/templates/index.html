@@ -1,20 +1,33 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Flask_dash
+Flask_dash
 {% endblock %}
 
 {% block head %}
 {{ super() }}
-    <style>
+<style>
     @media (min-width: 576px) {}
+
     @media (min-width: 768px) {}
+
     @media (min-width: 992px) {}
+
     @media (min-width: 1200px) {}
+
     @media (min-width: 1400px) {}
-    </style>
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container-lg">
+    <h1>Flask_Dash</h1>
+    {{ super() }}
+</div>
 {% endblock %}
 
 {% block footer %}
-    &copy; Copyright 2023 by <a href="https://flask-dash-web-d6r9.onrender.com/">蕭翊廷</a>.
+    {{ super() }}
 {% endblock %}

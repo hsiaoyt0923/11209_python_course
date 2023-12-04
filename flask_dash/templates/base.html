@@ -9,12 +9,11 @@
     {% endblock %}
 </head>
 <body>
-    <div class="container-lg">{% block content %}{% endblock %}</div>
-    <div id="footer">
+    {% block content %}
         {% block footer %}
-        &copy; Copyright 2023 by <a href="http://domain.invalid/">website</a>.
+            &copy; Copyright 2023 by <a href="http://domain.invalid/">website</a>.
         {% endblock %}
-    </div>
+    {% endblock %}</div>
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
 </body>
 </html>
