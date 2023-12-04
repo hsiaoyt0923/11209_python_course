@@ -1,13 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>flask_dash</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
-</head>
-<body>
-    <h1>flask_dash</h1>
-    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+    Flask_dash
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+    <style>
+    @media (min-width: 576px) {}
+    @media (min-width: 768px) {}
+    @media (min-width: 992px) {}
+    @media (min-width: 1200px) {}
+    @media (min-width: 1400px) {}
+    </style>
+{% endblock %}
+
+{% block footer %}
+    &copy; Copyright 2023 by <a href="https://flask-dash-web-d6r9.onrender.com/">蕭翊廷</a>.
+{% endblock %}
