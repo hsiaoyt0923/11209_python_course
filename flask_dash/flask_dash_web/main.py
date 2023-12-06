@@ -7,7 +7,7 @@ from dash_file.dash_app1 import dash1
 
 app = Flask(__name__)
 
-application = DispatcherMiddleware(app,{"/app1": dash1.server,})
+application = DispatcherMiddleware(app,{"/dash/app1": dash1.server,})
 
 @app.route("/")
 def index():
