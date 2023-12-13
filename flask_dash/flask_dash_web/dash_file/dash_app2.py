@@ -37,9 +37,6 @@ dash2.layout = html.Div(
                                 n_clicks=0)
                 ],
                     className="col"),
-                html.Div(children='輸出內容',
-                         id='output-content',
-                         className="col")
             ],
                 className="row row-cols-auto align-items-end",
                 style={"paddingTop":'0.5rem'}),
