@@ -1,4 +1,4 @@
-from dash import Dash, html,dash_table,Input,Output,callback
+from dash import Dash, html,dash_table,Input,Output,callback,State
 import pandas as pd
 import dash_bootstrap_components as dbc
 from . import datasource
@@ -6,10 +6,10 @@ from . import datasource
 dash2 = Dash(requests_pathname_prefix="/dash/app2/",external_stylesheets=[dbc.themes.BOOTSTRAP])
 dash2.title = "台北市youbike及時資料"
 
-latest_data = datasource.lastest_datetime_data()
-latest_df = pd.DataFrame(latest_data, columns=['站點名稱','更新時間','行政區','地址','總數','可借','可還'])
-latest_df1 = latest_df.reset_index()
-latest_df1['站點名稱'] = latest_df1['站點名稱'].map(lambda name:name[11:])
+current_data = datasource.lastest_datetime_data()
+current_df = pd.DataFrame(current_data, columns=['站點名稱','更新時間','行政區','地址','總數','可借','可還'])
+current_df = current_df.reset_index()
+current_df['站點名稱'] = current_df['站點名稱'].map(lambda name:name[11:])
 
 dash2.layout = html.Div(
     [
@@ -47,8 +47,6 @@ dash2.layout = html.Div(
                 html.Div([
                     dash_table.DataTable(
                         id='main_table',
-                        data=latest_df1.to_dict('records'),
-                        columns=[{'id':column,'name':column} for column in latest_df1.columns],
                         page_size=20,
                         style_table={'height': '300px', 'overflowY': 'auto'},
                         fixed_rows={'headers': True},
@@ -83,24 +81,33 @@ dash2.layout = html.Div(
     )
 
 @callback(
-        Output('output-content','children'),
-        Input('submit-val','n_clicks'),
-        Input('input_value','value')
+        [Output('main_table','data'),Output('main_table','columns'),Output('main_table','selected_rows')],
+        [Input('submit-val','n_clicks')],
+        [State('input_value','value')]
 )
-def clickBtn(n_clicks:None | int,inputValue:str):
-        if n_clicks != 0:
-        #一定先檢查有沒有按button
-            print(inputValue)
-
+def clickBtn(n_clicks:int,inputValue:str):
+    global current_df
+    if n_clicks != 0:    
+        searchData = datasource.search_sitename(inputValue)
+        current_df = pd.DataFrame(searchData,columns=['站點名稱','更新時間','行政區','地址','總數','可借','可還'])
+        current_df = current_df.reset_index()
+        current_df['站點名稱'] = current_df['站點名稱'].map(lambda name:name[11:])
+        return current_df.to_dict('records'), [{'id':column,'name':column} for column in current_df.columns], []
+    
+    current_data = datasource.lastest_datetime_data()
+    current_df = pd.DataFrame(current_data, columns=['站點名稱','更新時間','行政區','地址','總數','可借','可還'])
+    current_df = current_df.reset_index()
+    current_df['站點名稱'] = current_df['站點名稱'].map(lambda name:name[11:])
+    return current_df.to_dict('records'), [{'id':column,'name':column} for column in current_df.columns], []
 @callback(
     Output('showMessage','children'),
-    Input('main_table','selected_rows')  
+    [Input('main_table','selected_rows')]
+
 )
 def selectedRow(selected_rows:list[int]):
-    #取得一個站點,series
+#取得一個站點,series
     if len(selected_rows) != 0:
-        print("執行")
-        oneSite = latest_df1.iloc[selected_rows]
+        oneSite = current_df.iloc[selected_rows]
         oneTable =  dash_table.DataTable(oneSite.to_dict('records'), [{"name": i, "id": i} for i in oneSite.columns])
         return oneTable
     return None
